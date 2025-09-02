@@ -19,8 +19,15 @@ require_once CORE_PATH . '/view.php';
 // Charger les fichiers utilitaires
 require_once INCLUDE_PATH . '/helpers.php';
 
-// Charger les modèles
-require_once MODEL_PATH . '/user_model.php';
+// Charger tous les modèles
+foreach (glob(MODEL_PATH . '/*.php') as $model_file) {
+    require_once $model_file;
+}
+
+// Charger tous les contrôleurs
+foreach (glob(CONTROLLER_PATH . '/*.php') as $controller_file) {
+    require_once $controller_file;
+}
 
 // Activer l'affichage des erreurs en développement
 // À désactiver en production

@@ -1,0 +1,112 @@
+===============================================
+GUIDE CRUD PRODUITS - UPLOAD D'IMAGES
+===============================================
+
+Ce guide explique les étapes pour créer un CRUD simple de produits avec upload d'images en PHP.
+
+===============================================
+1. STRUCTURE DE BASE DE DONNÉES
+===============================================
+
+Table créée dans database/schema.sql :
+- id (INT, AUTO_INCREMENT, PRIMARY KEY)
+- name (VARCHAR(255), NOT NULL)
+- description (TEXT)
+- price (DECIMAL(10,2), NOT NULL)
+- image (VARCHAR(255))
+- created_at (TIMESTAMP)
+- updated_at (TIMESTAMP)
+
+===============================================
+2. FICHIERS CRÉÉS
+===============================================
+
+MODÈLE (models/product_model.php) :
+- get_all_products() : Récupère tous les produits
+- get_product_by_id($id) : Récupère un produit par ID
+- create_product() : Crée un nouveau produit
+- update_product() : Met à jour un produit
+- delete_product() : Supprime un produit
+- upload_product_image() : Upload sécurisé d'image
+- delete_product_image() : Supprime une image
+
+CONTRÔLEUR (controllers/product_controller.php) :
+- products_index() : Affiche la liste des produits
+- products_create() : Formulaire de création
+- products_store() : Traitement de la création
+- products_edit($id) : Formulaire d'édition
+- products_update($id) : Traitement de la modification
+- products_delete($id) : Suppression d'un produit
+
+VUES (views/products/) :
+- index.php : Liste des produits avec grille
+- create.php : Formulaire de création
+- edit.php : Formulaire de modification
+
+DOSSIER :
+- public/uploads/products/ : Stockage des images
+
+===============================================
+3. SÉCURITÉ UPLOAD D'IMAGES
+===============================================
+
+Fonction upload_product_image() :
+✓ Vérification du fichier uploadé (UPLOAD_ERR_OK)
+✓ Extensions autorisées : jpg, jpeg, png, gif
+✓ Taille maximale : 5MB
+✓ Nom unique avec uniqid()
+✓ Utilisation de move_uploaded_file()
+
+===============================================
+4. URLS FONCTIONNELLES
+===============================================
+
+- /public/products : Liste des produits
+- /public/products/create : Nouveau produit
+- /public/products/edit/1 : Modifier produit ID 1
+- /public/products/delete/1 : Supprimer produit ID 1
+
+===============================================
+5. POINTS CLÉS POUR LES JUNIORS
+===============================================
+
+FORMULAIRE :
+- enctype="multipart/form-data" OBLIGATOIRE pour upload
+- input type="file" pour sélectionner l'image
+
+VALIDATION :
+- Toujours valider côté serveur (pas seulement côté client)
+- Vérifier extension ET taille du fichier
+- Générer un nom unique pour éviter les conflits
+
+SÉCURITÉ :
+- Utiliser move_uploaded_file() (pas copy())
+- Limiter les extensions autorisées
+- Vérifier la taille des fichiers
+- Supprimer l'ancienne image lors de la modification
+
+NAVIGATION :
+- Redirections cohérentes après chaque action
+- Messages flash pour informer l'utilisateur
+- Confirmation avant suppression
+
+===============================================
+6. CONFIGURATION REQUISE
+===============================================
+
+- PHP avec extension PDO MySQL
+- Base de données MySQL/MariaDB
+- Dossier uploads/ avec permissions d'écriture
+- Configuration BASE_URL correcte dans config/database.php
+
+===============================================
+7. TEST
+===============================================
+
+1. Accéder à /public/products
+2. Cliquer sur "Nouveau produit"
+3. Remplir le formulaire avec une image
+4. Vérifier que l'image s'affiche dans la liste
+5. Tester la modification et suppression
+
+===============================================
